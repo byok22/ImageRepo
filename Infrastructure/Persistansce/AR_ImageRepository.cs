@@ -6,21 +6,23 @@ namespace Infrastructure.Persistansce
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("[dbo].[ImageRepository]")]
-    public partial class ImageRepository
+
+    [Table("AR_ImageRepository")]
+    public partial class AR_ImageRepository
     {
         [Key]
-        public int Id_Image { get; set; }
+        public int PKImage { get; set; }
 
         [Required]
-        [StringLength(150)]
+        [StringLength(50)]
         public string SerialNumber { get; set; }
 
+        public int FKProcess { get; set; }
+
         [Required]
-        [StringLength(150)]
         public string Path { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+        public DateTime FileDateTime { get; set; }
 
         public DateTime UpdatedAt { get; set; }
     }

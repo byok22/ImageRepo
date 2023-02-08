@@ -39,6 +39,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -50,10 +51,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Common\IGenericRepositoryDB.cs" />
+    <Compile Include="Persistansce\AR_ImageRepository.cs" />
+    <Compile Include="Persistansce\AR_ImageRepo\AR_ImageRepo.cs" />
+    <Compile Include="Persistansce\CT_Process.cs" />
+    <Compile Include="Persistansce\CT_ServersName.cs" />
+    <Compile Include="Persistansce\DbConnectA.cs" />
     <Compile Include="Persistansce\ImageRepository.cs" />
+    <Compile Include="Persistansce\IX_ProcessRoute.cs" />
     <Compile Include="Persistansce\TE_ImageRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Persistansce\StoreProcedureRepo\StoreProceduresRepo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -61,6 +69,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{EDCB0FEA-7EFF-428E-A9B9-D48300EF120E}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C5FD7056-B3B5-4103-ACB9-A0C126D6C5FA}</ProjectGuid>
+    <ProjectGuid>{D417FCB3-EE83-44A9-B0EA-660E7E99FFD5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Application</RootNamespace>
-    <AssemblyName>Application</AssemblyName>
+    <RootNamespace>ApplicationsA</RootNamespace>
+    <AssemblyName>ApplicationsA</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -51,8 +51,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Common\IGenericRepository.cs" />
+    <Compile Include="Functions\FileOperations.cs" />
+    <Compile Include="Functions\SerialNumbers.cs" />
+    <Compile Include="ImageRepository\ImageRepositoryRepo.cs" />
+    <Compile Include="LDAP Validation\Ldap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StoreRepository\StoreRepository.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{edcb0fea-7eff-428e-a9b9-d48300ef120e}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
+      <Project>{80573a5e-62e2-4c9d-8411-3e2b8c4ad80f}</Project>
+      <Name>Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
