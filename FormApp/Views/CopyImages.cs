@@ -16,8 +16,8 @@ namespace FormApp
         }
         private void getSavedSourceAndTarget()
         {
-            string source = ConfigFunctions.getSourceFromConfig();
-            string target = ConfigFunctions.getTargetFromConfig();
+            string source = ConfigFunctions.GetSourceFromConfig();
+            string target = ConfigFunctions.GetTargetFromConfig();
             txtSource.Text = source;
             txtTarget.Text = target;
         }
@@ -40,7 +40,7 @@ namespace FormApp
                 {
                     string source = txtSource.Text = fbd.SelectedPath;
                     //save in app.config file code
-                    ConfigFunctions.saveSourceinConfig(source);
+                    ConfigFunctions.SaveSourceinConfig(source);
                     
                 
                 }
@@ -57,7 +57,7 @@ namespace FormApp
                 if (fd.ShowDialog() == DialogResult.OK)
                 {
                     string source = txtSource.Text = fd.FileName;
-                    ConfigFunctions.saveSourceinConfig(source);
+                    ConfigFunctions.SaveSourceinConfig(source);
                 }
                 //get source folder
                 //get destination folder
@@ -81,7 +81,7 @@ namespace FormApp
             {
                 string target = txtTarget.Text = fbd.SelectedPath;
                 //save in app.config file code
-                ConfigFunctions.saveTargetInConfig(target);
+                ConfigFunctions.SaveTargetInConfig(target);
             }
 
         }
@@ -100,12 +100,12 @@ namespace FormApp
             {
                 //source exists
                 //destination exists
-                if(!FileFunctions.checkIfSourceExists(source))
+                if(!FileFunctions.CheckIfSourceExists(source))
                 {
                     MessageBox.Show("Source are Incorrect");
                     return;
                 }
-                if(!FileFunctions.checkIfTargetExists(target))
+                if(!FileFunctions.CheckIfTargetExists(target))
                 {
                     MessageBox.Show("Target are Incorrect");
                     return;
@@ -114,13 +114,13 @@ namespace FormApp
                 btnUpload.Visible = true;
                 chkListFiles.Visible = true;
                 chkListFiles.Items.Clear();
-                chkListFiles.Items.AddRange(FormsGenerator.getItemsForCheckedListBoXFromPath(source));
+                chkListFiles.Items.AddRange(FormsGenerator.GetItemsForCheckedListBoXFromPath(source));
                 //check all items in chkListFiles and Verify Serial Numbers
                 for (int i = 0; i < chkListFiles.Items.Count; i++)
                 {
                     
                     //verify serial numbers
-                    string serialNumber = SerialNumbers.getValidSerialNumberFromPath(chkListFiles.Items[i].ToString());
+                    string serialNumber = SerialNumbers.GetValidSerialNumberFromPath(chkListFiles.Items[i].ToString());
                     if (serialNumber == "")
                     {
                         chkListFiles.SetItemChecked(i, false);
@@ -152,12 +152,12 @@ namespace FormApp
             {
                 //source exists
                 //destination exists
-                if (!FileFunctions.checkIfSourceExists(source))
+                if (!FileFunctions.CheckIfSourceExists(source))
                 {
                     MessageBox.Show("Source are Incorrect");
                     return;
                 }
-                if (!FileFunctions.checkIfTargetExists(target))
+                if (!FileFunctions.CheckIfTargetExists(target))
                 {
                     MessageBox.Show("Target are Incorrect");
                 

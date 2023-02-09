@@ -54,6 +54,7 @@
     <Compile Include="Common\IGenericRepository.cs" />
     <Compile Include="Functions\FileOperations.cs" />
     <Compile Include="Functions\SerialNumbers.cs" />
+    <Compile Include="Helpers\ImpersonationHelper.cs" />
     <Compile Include="ImageRepository\ImageRepositoryRepo.cs" />
     <Compile Include="LDAP Validation\Ldap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

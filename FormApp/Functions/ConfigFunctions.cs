@@ -9,7 +9,7 @@ namespace FormApp.Functions
 {
     public static class ConfigFunctions
     {
-        public static void saveSourceinConfig(string source)
+        public static void SaveSourceinConfig(string source)
         {
             //save in app.config file code
             var config = ConfigurationManager.OpenExeConfiguration(System.Configuration.ConfigurationUserLevel.None);
@@ -25,7 +25,7 @@ namespace FormApp.Functions
             config.Save(System.Configuration.ConfigurationSaveMode.Modified);
             System.Configuration.ConfigurationManager.RefreshSection("appSettings");
         }
-        public static void saveTargetInConfig(string target)
+        public static void SaveTargetInConfig(string target)
         {
             //save in app.config file code
             var config = ConfigurationManager.OpenExeConfiguration(System.Configuration.ConfigurationUserLevel.None);
@@ -42,17 +42,7 @@ namespace FormApp.Functions
             config.Save(System.Configuration.ConfigurationSaveMode.Modified);
             System.Configuration.ConfigurationManager.RefreshSection("appSettings");
         }
-        public static string getSourceFromConfig()
-        {
-            string source = ConfigurationManager.AppSettings["Source"];
-            return source;
-        }
-        public static string getTargetFromConfig()
-        {
-            string target = ConfigurationManager.AppSettings["Target"];
-            return target;
-        }
-        public static void saveProcessIdInConfig(int processId)
+        public static void SaveProcessIdInConfig(int processId)
         {
             //save in app.config file code
             var config = ConfigurationManager.OpenExeConfiguration(System.Configuration.ConfigurationUserLevel.None);
@@ -69,14 +59,25 @@ namespace FormApp.Functions
             config.Save(System.Configuration.ConfigurationSaveMode.Modified);
             System.Configuration.ConfigurationManager.RefreshSection("appSettings");
         }
-        public static int getProcessIdFromConfig()
+        public static string GetSourceFromConfig()
+        {
+            string source = ConfigurationManager.AppSettings["Source"];
+            return source;
+        }
+        public static string GetTargetFromConfig()
+        {
+            string target = ConfigurationManager.AppSettings["Target"];
+            return target;
+        }
+       
+        public static int GetProcessIdFromConfig()
         {
             string processIdstr = ConfigurationManager.AppSettings["ProcessId"];
             int processID;
             int.TryParse(processIdstr,out processID);
             return processID;
         }
-        public static void setTimerInConfig(int time)
+        public static void SetTimerInConfig(int time)
         {
             //save in app.config file code
             var config = ConfigurationManager.OpenExeConfiguration(System.Configuration.ConfigurationUserLevel.None);
@@ -92,7 +93,7 @@ namespace FormApp.Functions
             config.Save(System.Configuration.ConfigurationSaveMode.Modified);
             System.Configuration.ConfigurationManager.RefreshSection("appSettings");
         }
-        public static int getTimerFromConfig()
+        public static int GetTimerFromConfig()
         {
             string timerstr = ConfigurationManager.AppSettings["Timer"];
             int timer;

@@ -19,6 +19,10 @@ namespace ApplicationsA.StoreRepository
         {
             return storeProceduresRepo.GetServerPathFromProcessID(processID);
         }
+        public ImageRepositoryModel insertImageRecord(ImageRepositoryModel image)
+        {
+            return storeProceduresRepo.InsertAndGetImageRepositoryModel(image);
+        }
 
     }
 }

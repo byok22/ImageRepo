@@ -10,7 +10,8 @@ namespace Domain.Entities
     {
         
         public int Id_Image { get; set; }      
-        public string SerialNumber { get; set; }    
+        public string SerialNumber { get; set; }   
+        public int FKProcess { get; set; } 
         public string Path { get; set; }   
         public DateTime FileDateTime { get; set; }
         public DateTime UpdatedAt { get; set; }

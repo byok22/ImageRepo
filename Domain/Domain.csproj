@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\LoggerImage.cs" />
     <Compile Include="Entities\ImageRepositoryModel.cs" />
     <Compile Include="Entities\UpGetProcessModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

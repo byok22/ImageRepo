@@ -32,6 +32,28 @@ namespace Infrastructure.Persistansce.StoreProcedureRepo
             string serverPath = dt.Rows[0]["ServerPath"].ToString();
             return serverPath;
         }
+        public ImageRepositoryModel InsertAndGetImageRepositoryModel(ImageRepositoryModel imageObj)
+        {
+            SqlParameter parameter1 = new SqlParameter("@SerialNumber", imageObj.SerialNumber);
+            SqlParameter parameter2 = new SqlParameter("@FKProcess", imageObj.FKProcess);
+            SqlParameter parameter3 = new SqlParameter("@Path", imageObj.Path);
+            SqlParameter parameter4 = new SqlParameter("@FileDateTime", imageObj.FileDateTime);
+           
+            SqlParameter[] parameters = new SqlParameter[4];
+            parameters[0] = parameter1;
+            parameters[1] = parameter2;
+            parameters[2] = parameter3;
+            parameters[3] = parameter4;
+            DataTable dt = dba.GetDataSP("up_InsertAR_ImageRepository", parameters);
+            ImageRepositoryModel imageRepositoryModel = dt.AsEnumerable().Select(m => new ImageRepositoryModel(){                   
+                    SerialNumber = m.Field<string>("SerialNumber"),
+                    FKProcess = m.Field<int>("FKProcess"),
+                    Path = m.Field<string>("Path"),
+                    FileDateTime = m.Field<DateTime>("FileDateTime"),
+                    UpdatedAt = m.Field<DateTime>("UpdatedAt"),
+             }).FirstOrDefault();
+            return imageRepositoryModel;
+        } 
 
     }
 }

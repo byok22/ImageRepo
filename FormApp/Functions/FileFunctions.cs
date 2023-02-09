@@ -8,7 +8,7 @@ namespace FormApp.Functions
 {
     public static class FileFunctions
     {
-        public static bool checkIfSourceExists(string source)
+        public static bool CheckIfSourceExists(string source)
         {
             bool sourceExists = false;
             if (System.IO.Directory.Exists(source))
@@ -17,7 +17,7 @@ namespace FormApp.Functions
             }
             return sourceExists;
         }
-        public static bool checkIfTargetExists(string target)
+        public static bool CheckIfTargetExists(string target)
         {
             bool targetExists = false;
             if (System.IO.Directory.Exists(target))

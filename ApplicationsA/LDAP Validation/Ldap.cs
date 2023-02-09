@@ -9,7 +9,7 @@ namespace ApplicationsA.LDAP_Validation
     public class Ldap
     {
 
-        public string getUserNameFromWindowsSession()
+        public string GetUserNameFromWindowsSession()
         {
             return System.Security.Principal.WindowsIdentity.GetCurrent().Name;
         }

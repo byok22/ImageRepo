@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Config));
             this.txtSource = new System.Windows.Forms.TextBox();
             this.btnGetSource = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -39,7 +40,9 @@
             this.txtServerPath = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.btnClose = new System.Windows.Forms.Button();
+            this.picLogo = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.nuTimer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             this.SuspendLayout();
             // 
             // txtSource
@@ -89,9 +92,24 @@
             // nuTimer
             // 
             this.nuTimer.Location = new System.Drawing.Point(9, 163);
+            this.nuTimer.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.nuTimer.Minimum = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
             this.nuTimer.Name = "nuTimer";
             this.nuTimer.Size = new System.Drawing.Size(60, 20);
             this.nuTimer.TabIndex = 8;
+            this.nuTimer.Value = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
             // 
             // label3
             // 
@@ -104,12 +122,16 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(12, 258);
+            this.btnSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(61)))), ((int)(((byte)(107)))));
+            this.btnSave.FlatAppearance.BorderSize = 0;
+            this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSave.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btnSave.Location = new System.Drawing.Point(369, 231);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(140, 38);
+            this.btnSave.Size = new System.Drawing.Size(140, 25);
             this.btnSave.TabIndex = 10;
             this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // txtServerPath
@@ -130,19 +152,35 @@
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(359, 258);
+            this.btnClose.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(61)))), ((int)(((byte)(107)))));
+            this.btnClose.FlatAppearance.BorderSize = 0;
+            this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClose.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btnClose.Location = new System.Drawing.Point(369, 271);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(140, 38);
+            this.btnClose.Size = new System.Drawing.Size(140, 25);
             this.btnClose.TabIndex = 13;
             this.btnClose.Text = "Close";
-            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.UseVisualStyleBackColor = false;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // picLogo
+            // 
+            this.picLogo.Image = ((System.Drawing.Image)(resources.GetObject("picLogo.Image")));
+            this.picLogo.Location = new System.Drawing.Point(9, 271);
+            this.picLogo.Name = "picLogo";
+            this.picLogo.Size = new System.Drawing.Size(108, 25);
+            this.picLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picLogo.TabIndex = 14;
+            this.picLogo.TabStop = false;
             // 
             // Config
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(190)))), ((int)(((byte)(192)))));
             this.ClientSize = new System.Drawing.Size(521, 308);
+            this.Controls.Add(this.picLogo);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtServerPath);
@@ -154,10 +192,12 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtSource);
             this.Controls.Add(this.btnGetSource);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Config";
             this.Text = "Config";
             this.Load += new System.EventHandler(this.Config_Load);
             ((System.ComponentModel.ISupportInitialize)(this.nuTimer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -176,5 +216,6 @@
         private System.Windows.Forms.TextBox txtServerPath;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.PictureBox picLogo;
     }
 }

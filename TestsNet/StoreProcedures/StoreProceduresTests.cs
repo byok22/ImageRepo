@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
-
+using Domain.Entities;
 
 namespace TestsNet.StoreProcedures
 {
@@ -38,6 +38,19 @@ namespace TestsNet.StoreProcedures
         {
             StoreProceduresRepo storeProceduresRepo = new StoreProceduresRepo();
             var process = storeProceduresRepo.GetProcess();
+        }
+
+        [Fact]
+        public void InsertImageTest()
+        {
+            StoreProceduresRepo storeProceduresRepo = new StoreProceduresRepo();
+            ImageRepositoryModel imageRepositoryModel = new ImageRepositoryModel();
+            imageRepositoryModel.SerialNumber = "123456789";
+            imageRepositoryModel.FKProcess = 1;
+            imageRepositoryModel.Path = "C:\\";
+            imageRepositoryModel.FileDateTime = DateTime.Now;
+            imageRepositoryModel.UpdatedAt = DateTime.Now;
+            var image = storeProceduresRepo.InsertAndGetImageRepositoryModel(imageRepositoryModel);            
         }
     }
 }

@@ -75,13 +75,11 @@ namespace ApplicationsA.ImageRepository
             };
             return Task.FromResult(imageModel);
         }
-
         public Task Save()
         {
             _context.SaveChanges();
             return Task.CompletedTask;
         }
-
         public Task Update(ImageRepositoryModel entity)
         {
             var image = _dbSet.Find(entity.Id_Image);
@@ -91,7 +89,7 @@ namespace ApplicationsA.ImageRepository
             _context.SaveChanges();
             return Task.CompletedTask;
         }
-        public Task executeCustomQuery()
+        public Task ExecuteCustomQuery()
         {
             var list = _context.Database.SqlQuery<AR_ImageRepository>(@"SELECT 
             [Extent1].[PKImage] AS [PKImage], 
@@ -102,10 +100,6 @@ namespace ApplicationsA.ImageRepository
             [Extent1].[UpdatedAt] AS [UpdatedAt]
             FROM [dbo].[AR_ImageRepository] AS [Extent1]").ToList();
             return Task.CompletedTask;
-
-
-
-
         }
         public Task<List<UpGetProcessModel>> GetProcess()
         {
