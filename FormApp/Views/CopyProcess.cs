@@ -65,7 +65,8 @@ namespace FormApp.Views
         private void NewComponents()        
         {
             notifyIcon.Visible = false;
-            notifyIcon.DoubleClick += NotifyIcon_DoubleClick;            
+            notifyIcon.DoubleClick += NotifyIcon_DoubleClick;  
+            notifyIcon.Text = "Copy Images";          
         }
         private void CopyProcess_Load(object sender, EventArgs e)
         {
@@ -170,12 +171,14 @@ namespace FormApp.Views
             //Verify User and Password before open Config
             string typeLogin = "Config";
             Login login = new Login(typeLogin);
+             login.StartPosition = FormStartPosition.CenterParent;
             if (login.ShowDialog() == DialogResult.OK)
             {
                 
                 Config config = new Config(login.username);
                 statusSS = false;
-                btnStarStop.Text = "Start";
+                btnStarStop.Text = "Start";                
+                config.StartPosition = FormStartPosition.CenterParent;
                 var result = config.ShowDialog();
                 if (result == DialogResult.OK)
                 {
@@ -218,7 +221,7 @@ namespace FormApp.Views
                 Task.Run(() => CopyImagesToRedFolderAsync());
                 GetConfigs();
                 return;
-           
+            
             MessageBox.Show("You don't have permission stop/start the Proccess", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);            
         }
         #endregion
@@ -242,6 +245,8 @@ namespace FormApp.Views
                 inProcess = false;
             }           
         }
+
+
         /// <summary>
         /// ProcessMoveImagesAndInsertRecordToDb
         /// </summary>

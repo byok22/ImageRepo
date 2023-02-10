@@ -77,7 +77,7 @@ namespace FormApp.Views
             string serverPath =  storeProceduresRepo.GetServerPathFromProcessID(processID);
             if (serverPath != null && serverPath != "")
             {
-                txtServerPath.Text = serverPath;
+                lblServerPath.Text = serverPath;
             }
         }
 
@@ -192,7 +192,7 @@ namespace FormApp.Views
             int processID;
             int.TryParse(processIDstr, out processID);          
             string serverPath = storeProceduresRepo.GetServerPathFromProcessID(processID);
-            txtServerPath.Text = serverPath;
+            lblServerPath.Text = serverPath;
         }
 
 

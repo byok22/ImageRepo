@@ -35,15 +35,16 @@
             this.btnConfig = new System.Windows.Forms.Button();
             this.picLogo = new System.Windows.Forms.PictureBox();
             this.gbStatus = new System.Windows.Forms.GroupBox();
-            this.lblProcess = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.lblCurrent = new System.Windows.Forms.Label();
             this.lblLast = new System.Windows.Forms.Label();
+            this.lblProcess = new System.Windows.Forms.Label();
             this.txtLog = new System.Windows.Forms.TextBox();
             this.btnStarStop = new System.Windows.Forms.Button();
             this.lblVersion = new System.Windows.Forms.Label();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.label2 = new System.Windows.Forms.Label();
             this.pnlMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             this.gbStatus.SuspendLayout();
@@ -106,6 +107,7 @@
             // 
             this.gbStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbStatus.Controls.Add(this.label2);
             this.gbStatus.Controls.Add(this.label3);
             this.gbStatus.Controls.Add(this.label1);
             this.gbStatus.Controls.Add(this.lblCurrent);
@@ -116,15 +118,6 @@
             this.gbStatus.TabIndex = 1;
             this.gbStatus.TabStop = false;
             this.gbStatus.Text = "Status";
-            // 
-            // lblProcess
-            // 
-            this.lblProcess.AutoSize = true;
-            this.lblProcess.Location = new System.Drawing.Point(181, 56);
-            this.lblProcess.Name = "lblProcess";
-            this.lblProcess.Size = new System.Drawing.Size(51, 13);
-            this.lblProcess.TabIndex = 5;
-            this.lblProcess.Text = "Process: ";
             // 
             // label3
             // 
@@ -162,12 +155,22 @@
             this.lblLast.TabIndex = 0;
             this.lblLast.Text = "Last";
             // 
+            // lblProcess
+            // 
+            this.lblProcess.AutoSize = true;
+            this.lblProcess.Location = new System.Drawing.Point(181, 56);
+            this.lblProcess.Name = "lblProcess";
+            this.lblProcess.Size = new System.Drawing.Size(51, 13);
+            this.lblProcess.TabIndex = 5;
+            this.lblProcess.Text = "Process: ";
+            // 
             // txtLog
             // 
             this.txtLog.Enabled = false;
             this.txtLog.Location = new System.Drawing.Point(3, 213);
             this.txtLog.Multiline = true;
             this.txtLog.Name = "txtLog";
+            this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txtLog.Size = new System.Drawing.Size(790, 207);
             this.txtLog.TabIndex = 2;
             // 
@@ -203,6 +206,15 @@
             this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
             this.notifyIcon.Text = "notifyIcon1";
             this.notifyIcon.Visible = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 116);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(111, 13);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Images Uploaded Log";
             // 
             // CopyProcess
             // 
@@ -248,5 +260,6 @@
         private System.Windows.Forms.NotifyIcon notifyIcon;
         private System.Windows.Forms.Button btnMinimize;
         private System.Windows.Forms.Label lblProcess;
+        private System.Windows.Forms.Label label2;
     }
 }

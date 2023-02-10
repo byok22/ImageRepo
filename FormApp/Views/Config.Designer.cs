@@ -37,10 +37,10 @@
             this.nuTimer = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
-            this.txtServerPath = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.btnClose = new System.Windows.Forms.Button();
             this.picLogo = new System.Windows.Forms.PictureBox();
+            this.lblServerPath = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nuTimer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             this.SuspendLayout();
@@ -134,13 +134,6 @@
             this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // txtServerPath
-            // 
-            this.txtServerPath.Location = new System.Drawing.Point(9, 67);
-            this.txtServerPath.Name = "txtServerPath";
-            this.txtServerPath.Size = new System.Drawing.Size(457, 20);
-            this.txtServerPath.TabIndex = 11;
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -174,16 +167,25 @@
             this.picLogo.TabIndex = 14;
             this.picLogo.TabStop = false;
             // 
+            // lblServerPath
+            // 
+            this.lblServerPath.AutoSize = true;
+            this.lblServerPath.Location = new System.Drawing.Point(6, 70);
+            this.lblServerPath.Name = "lblServerPath";
+            this.lblServerPath.Size = new System.Drawing.Size(17, 13);
+            this.lblServerPath.TabIndex = 15;
+            this.lblServerPath.Text = "//";
+            // 
             // Config
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(190)))), ((int)(((byte)(192)))));
             this.ClientSize = new System.Drawing.Size(521, 308);
+            this.Controls.Add(this.lblServerPath);
             this.Controls.Add(this.picLogo);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.txtServerPath);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.nuTimer);
@@ -213,9 +215,9 @@
         private System.Windows.Forms.NumericUpDown nuTimer;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.TextBox txtServerPath;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.PictureBox picLogo;
+        private System.Windows.Forms.Label lblServerPath;
     }
 }

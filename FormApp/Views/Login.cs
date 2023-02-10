@@ -35,7 +35,7 @@ namespace FormApp.Views
         private void HidePasswordTextBox()
         {
             txtPassword.PasswordChar = '*';
-            txtPassword.MaxLength = 10;
+            txtPassword.MaxLength = 100;
         }
         private void CopyProcess_MouseUp(object sender, MouseEventArgs e)
         {
