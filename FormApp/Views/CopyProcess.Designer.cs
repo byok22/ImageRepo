@@ -31,9 +31,11 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CopyProcess));
             this.pnlMenu = new System.Windows.Forms.Panel();
+            this.btnMinimize = new System.Windows.Forms.Button();
             this.btnConfig = new System.Windows.Forms.Button();
             this.picLogo = new System.Windows.Forms.PictureBox();
             this.gbStatus = new System.Windows.Forms.GroupBox();
+            this.lblProcess = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.lblCurrent = new System.Windows.Forms.Label();
@@ -50,12 +52,29 @@
             // pnlMenu
             // 
             this.pnlMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(61)))), ((int)(((byte)(107)))));
+            this.pnlMenu.Controls.Add(this.btnMinimize);
             this.pnlMenu.Controls.Add(this.btnConfig);
             this.pnlMenu.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlMenu.Location = new System.Drawing.Point(0, 0);
             this.pnlMenu.Name = "pnlMenu";
             this.pnlMenu.Size = new System.Drawing.Size(800, 38);
             this.pnlMenu.TabIndex = 0;
+            // 
+            // btnMinimize
+            // 
+            this.btnMinimize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMinimize.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(61)))), ((int)(((byte)(107)))));
+            this.btnMinimize.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(61)))), ((int)(((byte)(107)))));
+            this.btnMinimize.FlatAppearance.BorderSize = 0;
+            this.btnMinimize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMinimize.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btnMinimize.Location = new System.Drawing.Point(721, 3);
+            this.btnMinimize.Name = "btnMinimize";
+            this.btnMinimize.Size = new System.Drawing.Size(76, 31);
+            this.btnMinimize.TabIndex = 5;
+            this.btnMinimize.Text = "Minimize";
+            this.btnMinimize.UseVisualStyleBackColor = false;
+            this.btnMinimize.Click += new System.EventHandler(this.btnMinimize_Click);
             // 
             // btnConfig
             // 
@@ -97,6 +116,15 @@
             this.gbStatus.TabIndex = 1;
             this.gbStatus.TabStop = false;
             this.gbStatus.Text = "Status";
+            // 
+            // lblProcess
+            // 
+            this.lblProcess.AutoSize = true;
+            this.lblProcess.Location = new System.Drawing.Point(181, 56);
+            this.lblProcess.Name = "lblProcess";
+            this.lblProcess.Size = new System.Drawing.Size(51, 13);
+            this.lblProcess.TabIndex = 5;
+            this.lblProcess.Text = "Process: ";
             // 
             // label3
             // 
@@ -183,6 +211,7 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(190)))), ((int)(((byte)(192)))));
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.ControlBox = false;
+            this.Controls.Add(this.lblProcess);
             this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.btnStarStop);
             this.Controls.Add(this.txtLog);
@@ -217,5 +246,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NotifyIcon notifyIcon;
+        private System.Windows.Forms.Button btnMinimize;
+        private System.Windows.Forms.Label lblProcess;
     }
 }

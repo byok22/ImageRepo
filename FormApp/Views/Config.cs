@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ApplicationsA.StoreRepository;
+using Domain.Common;
+using Domain.Entities;
 using FormApp.Functions;
 
 namespace FormApp.Views
@@ -17,23 +19,30 @@ namespace FormApp.Views
         private bool dragging = false;
         private Point dragCursorPoint;
         private Point dragFormPoint;
+        private string username;
+
         StoreRepository storeProceduresRepo;
-        public Config()
+
+        public Config(string username)
         {
             InitializeComponent();
             storeProceduresRepo = new StoreRepository();
             EventsForms();
-        }
+            this.username = username;
+        }  
+
+
+        /// <summary>
+        /// Events for forms
+        /// </summary>    
         private void EventsForms()
         {
             this.MouseDown += CopyProcess_MouseDown;
             this.MouseMove += CopyProcess_MouseMove;
             this.MouseUp += CopyProcess_MouseUp;        
         }
-
         private void Config_Load(object sender, EventArgs e)
-        {
-            
+        {            
             filCboxProcess();
             getServerPathFromConfig();
             getSourceFromConfig();
@@ -43,7 +52,6 @@ namespace FormApp.Views
         {
             dragging = false;
         }
-
         private void CopyProcess_MouseMove(object sender, MouseEventArgs e)
         {
             if (dragging)
@@ -52,13 +60,17 @@ namespace FormApp.Views
                 this.Location = Point.Add(dragFormPoint, new Size(dif));
             }
         }
-
+      
         private void CopyProcess_MouseDown(object sender, MouseEventArgs e)
         {
             dragging = true;
             dragCursorPoint = Cursor.Position;
             dragFormPoint = this.Location;
         }
+
+        /// <summary>
+        /// Get server path from config file
+        /// </summary>        
         private void getServerPathFromConfig()
         {
             int processID = cboxProcess.SelectedValue != null ? Convert.ToInt32(cboxProcess.SelectedValue) : 0;
@@ -67,8 +79,12 @@ namespace FormApp.Views
             {
                 txtServerPath.Text = serverPath;
             }
-
         }
+
+
+        /// <summary>
+        /// Get timer from config file
+        /// </summary>
         private void GetNuTimerFromConfig()
         {
             int timerID = ConfigFunctions.GetTimerFromConfig();
@@ -77,6 +93,11 @@ namespace FormApp.Views
                 nuTimer.Value = timerID;
             }
         }
+
+
+        /// <summary>
+        /// Get source from config file
+        /// </summary>
         private void getSourceFromConfig()
         {
             string source = ConfigFunctions.GetSourceFromConfig();
@@ -87,6 +108,10 @@ namespace FormApp.Views
 
         }
 
+
+        /// <summary>
+        /// Fill combobox process
+        /// </summary>
         private void filCboxProcess()
         {
             cboxProcess.DataSource = storeProceduresRepo.GetProcess();
@@ -100,6 +125,7 @@ namespace FormApp.Views
 
         }
 
+
         private void btnGetSource_Click(object sender, EventArgs e)
         {
             //get source folder
@@ -112,11 +138,16 @@ namespace FormApp.Views
                 ConfigFunctions.SaveSourceinConfig(source);
             }
         }
+
+
         private void btnSave_Click(object sender, EventArgs e)
         {
             //save process in app.config file code
-            int processID = Convert.ToInt32(cboxProcess.SelectedValue);
+            int processID = Convert.ToInt32(cboxProcess.SelectedValue);            
             ConfigFunctions.SaveProcessIdInConfig(processID);
+            //save process name in app.config file code
+            string processName = cboxProcess.Text;
+            ConfigFunctions.SaveProcessNameInConfig(processName);
             //save timer in app.config file code
             int timer = Convert.ToInt32(nuTimer.Value);
             ConfigFunctions.SetTimerInConfig(timer);
@@ -128,27 +159,46 @@ namespace FormApp.Views
             //get server path from process id in StoreRepository
             string serverPath = storeProceduresRepo.GetServerPathFromProcessID(processID);
             //save server path in app.config file code
-            ConfigFunctions.SaveTargetInConfig(serverPath);            
+            ConfigFunctions.SaveTargetInConfig(serverPath);   
+            //save username in log file
+            LoggerImage.WriteLog(username, "Save Config");   
+            try{
+                 UserActivity userActivity = new UserActivity();
+                userActivity.UserNT = username;
+                userActivity.Activity = "Save Config";
+                userActivity.FkProcess= processID;
+                userActivity.Terminal = Environment.MachineName;
+            
+                var loginserted = storeProceduresRepo.insertUserActivity(userActivity);
+            
+
+            }catch(Exception ex){
+               LoggerImage.WriteLog(username, "Error Save Config: " + ex.Message);
+            }
+
+            //Save Record UserActivity
+            
+           
+
+                      
             MessageBox.Show("Configuración guardada correctamente");
             this.DialogResult = DialogResult.OK;
-
         }
+
 
         private void cboxProcess_SelectedIndexChanged(object sender, EventArgs e)
         {
             string processIDstr =  cboxProcess.SelectedValue.ToString();
             int processID;
-            int.TryParse(processIDstr, out processID);
-          
+            int.TryParse(processIDstr, out processID);          
             string serverPath = storeProceduresRepo.GetServerPathFromProcessID(processID);
             txtServerPath.Text = serverPath;
-
         }
+
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.Close();
-
+            this.DialogResult = DialogResult.Cancel;
         }
     }
 }

@@ -44,6 +44,7 @@
     <Compile Include="Common\LoggerImage.cs" />
     <Compile Include="Entities\ImageRepositoryModel.cs" />
     <Compile Include="Entities\UpGetProcessModel.cs" />
+    <Compile Include="Entities\UserActivity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

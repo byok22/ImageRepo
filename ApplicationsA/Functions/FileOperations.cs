@@ -37,7 +37,10 @@ namespace ApplicationsA.Functions
 
         public string GetDateStringFromFileName(string fileName)
         {
-            string dateString = Regex.Match(fileName, @"\d{8}").Value;
+            //example for filename : 20230104132136-20230104132136.JPG
+            //get datetime with hour minuts and secons from file name
+            string dateString = Regex.Match(fileName, @"\d{14}").Value;           
+            //string dateString = Regex.Match(fileName, @"\d{8}").Value;
             return dateString;
         }
 
@@ -101,8 +104,16 @@ namespace ApplicationsA.Functions
         {
 
             string imageFileName = Path.GetFileName(sourcePath);
-            string serialNumber = SerialNumbers.GetValidSeriaFromPath(imageFileName);
+            string serialNumber = SerialNumbers.GetValidSeriaFromPath(imageFileName);            
             string date = GetDateStringFromFileName(imageFileName);
+
+            //If image name does not contain date, then get date from file creation date
+            if (date.Length == 0)
+            {
+                 //get datetime with hour minuts and secons from dateString
+                date = File.GetCreationTime(sourcePath).ToString("yyyyMMddHHmmss");
+                imageFileName = $"{date}-{imageFileName}";
+            }
             string year = date.Substring(0, 4);
             string month = date.Substring(4, 2);
             string day = date.Substring(6, 2);
@@ -117,8 +128,8 @@ namespace ApplicationsA.Functions
             
             //save sourcePath  image in memory
             Byte[] byteSource = File.ReadAllBytes(sourcePath);
-            //convert byteSource to file stream
-            //MemoryStream memoryStreamSource = new MemoryStream(byteSource);
+
+            //convert byteSource to file stream            
             if (userName != null && userName != "" && password != null && password != "" && domain != null && domain != "")
             {
                 try

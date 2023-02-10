@@ -23,6 +23,10 @@ namespace ApplicationsA.StoreRepository
         {
             return storeProceduresRepo.InsertAndGetImageRepositoryModel(image);
         }
+        public UserActivity insertUserActivity(UserActivity userActivity)
+        {
+            return storeProceduresRepo.InsertAndGetUserActivity(userActivity);
+        }
 
     }
 }

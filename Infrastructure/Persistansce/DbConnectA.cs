@@ -10,10 +10,11 @@ namespace Infrastructure.Persistansce
 {
     public class DbConnectA
     {
-      
-        //get connection string from App.config
-        private static string ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["TE_ImageRepo"].ConnectionString;
 
+        //get connection string from App.config
+        //private static string ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["TE_ImageRepo"].ConnectionString;
+        private static string ConnectionString = "data source=AWUEA1GDLSQL41;initial catalog=TE_ImageRepository;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework";
+        // <add name="TE_ImageRepo" connectionString="" providerName="System.Data.SqlClient" />
         private SqlConnection conn;
 
         public DbConnectA()

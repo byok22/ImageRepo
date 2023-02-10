@@ -14,6 +14,11 @@ namespace Infrastructure.Persistansce.StoreProcedureRepo
     { 
         private DbConnectA dba = new DbConnectA();
         //Get List of up_GetProcessModel from up_GetProcess stored procedure
+
+        /// <summary>
+        /// GetProcess
+        /// </summary>
+        /// <returns></returns>
         public List<UpGetProcessModel> GetProcess()
         {
              DataTable dt = dba.GetDataSP("up_GetProcess", null);
@@ -23,6 +28,12 @@ namespace Infrastructure.Persistansce.StoreProcedureRepo
              }).ToList();
             return list;
         }
+
+        /// <summary>
+        /// GetServerPathFromProcessID
+        /// </summary>
+        /// <param name="processID"></param>
+        /// <returns></returns>
         public string GetServerPathFromProcessID(int processID)
         {                    
             SqlParameter parameter = new SqlParameter("@ProcessID", processID);
@@ -32,6 +43,38 @@ namespace Infrastructure.Persistansce.StoreProcedureRepo
             string serverPath = dt.Rows[0]["ServerPath"].ToString();
             return serverPath;
         }
+
+        /// <summary>
+        /// InsertAndGetUserActivity
+        /// </summary>
+        /// <param name="userActivity"></param>  
+        public UserActivity InsertAndGetUserActivity(UserActivity userActivity)
+        {
+            SqlParameter parameter1 = new SqlParameter("@UserNT", userActivity.UserNT);
+            SqlParameter parameter2 = new SqlParameter("@FkProcess", userActivity.FkProcess);
+            SqlParameter parameter3 = new SqlParameter("@Activity", userActivity.Activity);
+            SqlParameter parameter4 = new SqlParameter("@Terminal", userActivity.Terminal);            
+            SqlParameter[] parameters = new SqlParameter[4];
+            parameters[0] = parameter1;
+            parameters[1] = parameter2;
+            parameters[2] = parameter3;
+            parameters[3] = parameter4;            
+            DataTable dt = dba.GetDataSP("up_InsertAR_UserActivity", parameters);
+            UserActivity userActivityModel = dt.AsEnumerable().Select(m => new UserActivity(){                   
+                    UserNT = m.Field<string>("UserNT"),
+                    FkProcess = m.Field<int>("FkProcess"),
+                    Activity = m.Field<string>("Activity"),
+                    Terminal = m.Field<string>("Terminal"),
+                    UpdatedAt = m.Field<DateTime>("UpdatedAt"),
+             }).FirstOrDefault();
+            return userActivityModel;
+        }
+
+        /// <summary>
+        /// InsertAndGetImageRepositoryModel
+        /// </summary>
+        /// <param name="imageObj"></param>
+        /// <returns></returns>
         public ImageRepositoryModel InsertAndGetImageRepositoryModel(ImageRepositoryModel imageObj)
         {
             SqlParameter parameter1 = new SqlParameter("@SerialNumber", imageObj.SerialNumber);

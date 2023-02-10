@@ -13,6 +13,7 @@ using Domain.Common;
 using Domain.Entities;
 using ApplicationsA.StoreRepository;
 using System.Diagnostics;
+using System.IO;
 
 namespace FormApp.Views
 {
@@ -20,6 +21,7 @@ namespace FormApp.Views
     {
         #region Private Variables
         private bool statusSS = false;
+        private bool inProcess = false;
         private bool dragging = false;
         private Point dragCursorPoint;
         private Point dragFormPoint;
@@ -28,8 +30,11 @@ namespace FormApp.Views
         private int timerValue = 0;
         private string imagesUpdated = string.Empty;
         private int process_ID = 0;
-       
+        private string processName;
+
         #endregion Private Variables
+
+        #region Load
         public CopyProcess()
         {
             InitializeComponent();
@@ -38,7 +43,6 @@ namespace FormApp.Views
             EventsForms();
             GetConfigs();       
         }
-
         /// <summary>
         /// KillDuplicateProcesses
         /// </summary>
@@ -55,23 +59,29 @@ namespace FormApp.Views
                 }
             }
         }
+        /// <summary>
+        /// NewComponents
+        /// </summary>
         private void NewComponents()        
         {
-            
-            //find icon from current path resources icono.ico
-            
-          
             notifyIcon.Visible = false;
             notifyIcon.DoubleClick += NotifyIcon_DoubleClick;            
         }
-        private void NotifyIcon_DoubleClick(object sender, EventArgs e)
+        private void CopyProcess_Load(object sender, EventArgs e)
         {
-            this.WindowState = FormWindowState.Normal;
-            this.ShowInTaskbar = true;
-            notifyIcon.Visible = false;
-        }
-        #region Events
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.lblVersion.Text = $"Copy Images {Application.ProductVersion}   © Software Development Team GDL ";
 
+            var runningProcessByName = Process.GetProcessesByName("ServicesWindowsoJF");
+            if (runningProcessByName.Length == 0)
+            {
+                System.Diagnostics.Process.Start("ServicesWindowsoJF.exe");
+            }
+            Task.Run(() => CopyImagesToRedFolderAsync());
+        }
+        #endregion
+
+        #region Form Events
         private void EventsForms()
         {
             this.FormClosing += CopyProcess_FormClosing;
@@ -82,7 +92,15 @@ namespace FormApp.Views
             pnlMenu.MouseMove += PnlMenu_MouseMove;
             pnlMenu.MouseUp += PnlMenu_MouseUp;
         }
-        //when close form minimize to tray icon
+
+
+        private void NotifyIcon_DoubleClick(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Normal;
+            this.ShowInTaskbar = true;
+            notifyIcon.Visible = false;
+        }
+
         private void CopyProcess_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.UserClosing)
@@ -90,10 +108,17 @@ namespace FormApp.Views
                 e.Cancel = true;
                 this.WindowState = FormWindowState.Minimized;
                 this.ShowInTaskbar = false;
-                notifyIcon.Visible = true;
-                
-            
+                notifyIcon.Visible = true;            
             }
+        }
+
+
+        private void btnMinimize_Click(object sender, EventArgs e)
+        {
+            //Minimize the form to the system tray
+            this.WindowState = FormWindowState.Minimized;
+            this.ShowInTaskbar = false;
+            notifyIcon.Visible = true;
         }
 
         private void PnlMenu_MouseUp(object sender, MouseEventArgs e)
@@ -137,59 +162,85 @@ namespace FormApp.Views
             dragCursorPoint = Cursor.Position;
             dragFormPoint = this.Location;
         }
-        private void CopyProcess_Load(object sender, EventArgs e)
-        {
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.lblVersion.Text = $"Copy Images {Application.ProductVersion}   © Software Development Team GDL ";
-            var runningProcessByName = Process.GetProcessesByName("ServicesWindowsoJF");
-            if (runningProcessByName.Length == 0)
-            {
-                System.Diagnostics.Process.Start("ServicesWindowsoJF.exe");
+        #endregion
 
-            }
-            Task.Run(() => CopyImagesToRedFolderAsync());
-        }        
+        #region Button Process Events
         private void btnConfig_Click(object sender, EventArgs e)
         {
-            //Show dialog config
-            Config config = new Config();
-            statusSS = false;
-            btnStarStop.Text = "Start";
-            if (config.ShowDialog() == DialogResult.OK)
+            //Verify User and Password before open Config
+            string typeLogin = "Config";
+            Login login = new Login(typeLogin);
+            if (login.ShowDialog() == DialogResult.OK)
             {
-                statusSS = true;
-                GetConfigs();
-                Task.Run(() => CopyImagesToRedFolderAsync());
-                return;
-            }
-            statusSS = false;
-        }
-        private void btnStarStop_Click(object sender, EventArgs e)
-        {
-            if (statusSS)
-            {
+                
+                Config config = new Config(login.username);
                 statusSS = false;
                 btnStarStop.Text = "Start";
-                return;
+                var result = config.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    statusSS = true;
+                    GetConfigs();
+                    Task.Run(() => CopyImagesToRedFolderAsync());
+                    return;
+                }
+                if(result == DialogResult.Cancel)
+                {
+                    statusSS = true;                  
+                    Task.Run(() => CopyImagesToRedFolderAsync());
+                    return;
+                }
+                statusSS = false;
             }            
-            statusSS = true;
-            btnStarStop.Text = "Stop";
-            Task.Run(() => CopyImagesToRedFolderAsync());
-            GetConfigs();
+            MessageBox.Show("You don't have permission to access this module", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+
+        private void btnStarStop_Click(object sender, EventArgs e)
+        {
+            //Verify User and Password before stop or start process
+            string typeLogin = "StartStop";
+            Login login = new Login(typeLogin);            
+                //Logger the user who start or stop the process               
+                if (statusSS)
+                {
+                    if (login.ShowDialog() == DialogResult.OK)
+                    {
+                        LoggerImage.WriteLog($"NT User {login.username} stop the process", "StartStop");
+                        statusSS = false;
+                        btnStarStop.Text = "Start";
+                        return;
+                    }
+                    return;
+                }              
+                statusSS = true;
+                btnStarStop.Text = "Stop";
+                Task.Run(() => CopyImagesToRedFolderAsync());
+                GetConfigs();
+                return;
+           
+            MessageBox.Show("You don't have permission stop/start the Proccess", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);            
         }
         #endregion
+
+        #region Functions
         /// <summary>
         /// CopyImagesToRedFolderAsync
         /// </summary>
         /// <returns></returns>
         private async Task CopyImagesToRedFolderAsync()
         {
-            StoreRepository storeRepository = new StoreRepository();
-            while (statusSS)
+            if(!inProcess)
             {
-                await ProcessMoveImagesAndInsertRecordToDb(storeRepository);
-                await Task.Delay(timerValue * 1000);
-            }
+                inProcess = true;
+                StoreRepository storeRepository = new StoreRepository();
+                while (statusSS)
+                {
+                    await ProcessMoveImagesAndInsertRecordToDb(storeRepository);
+                    await Task.Delay(timerValue * 1000);
+                }
+                inProcess = false;
+            }           
         }
         /// <summary>
         /// ProcessMoveImagesAndInsertRecordToDb
@@ -222,8 +273,12 @@ namespace FormApp.Views
                             imageRepositoryModel.FKProcess = process_ID;
                             // Get Creation Date from Image
                             string dateString = fileOperations.GetDateStringFromFileName(validPath);
-                            imageRepositoryModel.FileDateTime = DateTime.ParseExact(dateString, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
-
+                            if (dateString.Length == 0)
+                            {
+                                //get datetime with hour minuts and secons from dateString
+                                dateString = File.GetCreationTime(validPath).ToString("yyyyMMddHHmmss");
+                            }
+                            imageRepositoryModel.FileDateTime = DateTime.ParseExact(dateString, "yyyyMMddHHmmss", System.Globalization.CultureInfo.InvariantCulture);
                             //Insert Image to DB
                             ImageRepositoryModel imageRepositoryAfterInsert = storeRepository.insertImageRecord(imageRepositoryModel);
                             if (imageRepositoryAfterInsert != null)
@@ -253,6 +308,9 @@ namespace FormApp.Views
             destinationPath = ConfigFunctions.GetTargetFromConfig();
             timerValue = ConfigFunctions.GetTimerFromConfig();
             process_ID = ConfigFunctions.GetProcessIdFromConfig();
+            processName = ConfigFunctions.GetProcessNameFromConfig();
+
+            this.lblProcess.Text = $"Process: {processName}";
             //Check if the paths are empty and set StatusSS to false
             if (string.IsNullOrEmpty(sourcePath) || string.IsNullOrEmpty(destinationPath) || timerValue<60)
             {
@@ -262,7 +320,9 @@ namespace FormApp.Views
             }           
             statusSS = true;
             btnStarStop.Text = "Stop";
-        }    
+        }
+        #endregion
+
 
     }
 }
