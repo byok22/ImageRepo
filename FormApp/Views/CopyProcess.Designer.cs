@@ -35,6 +35,7 @@
             this.btnConfig = new System.Windows.Forms.Button();
             this.picLogo = new System.Windows.Forms.PictureBox();
             this.gbStatus = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.lblCurrent = new System.Windows.Forms.Label();
@@ -44,7 +45,6 @@
             this.btnStarStop = new System.Windows.Forms.Button();
             this.lblVersion = new System.Windows.Forms.Label();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.label2 = new System.Windows.Forms.Label();
             this.pnlMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             this.gbStatus.SuspendLayout();
@@ -119,6 +119,15 @@
             this.gbStatus.TabStop = false;
             this.gbStatus.Text = "Status";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 116);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(128, 13);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Last 20 Images Uploaded";
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -166,7 +175,6 @@
             // 
             // txtLog
             // 
-            this.txtLog.Enabled = false;
             this.txtLog.Location = new System.Drawing.Point(3, 213);
             this.txtLog.Multiline = true;
             this.txtLog.Name = "txtLog";
@@ -206,15 +214,6 @@
             this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
             this.notifyIcon.Text = "notifyIcon1";
             this.notifyIcon.Visible = true;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 116);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(111, 13);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Images Uploaded Log";
             // 
             // CopyProcess
             // 

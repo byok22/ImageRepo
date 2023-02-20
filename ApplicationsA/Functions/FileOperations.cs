@@ -90,7 +90,8 @@ namespace ApplicationsA.Functions
         
         public List<string> GetFilesFromPath(string rootPath)
         {
-            List<string> files = Directory.GetFiles(rootPath, "*.*", SearchOption.AllDirectories).ToList();
+            var ext = new List<string> { "jpg", "tif" };
+            List<string> files = Directory.GetFiles(rootPath,"*.*",SearchOption.AllDirectories).Where(s => ext.Contains(Path.GetExtension(s).TrimStart('.').ToLowerInvariant())).ToList();
             return files;
         }
         /// <summary>
@@ -100,7 +101,7 @@ namespace ApplicationsA.Functions
         /// <param name="newRootPath"></param>
         /// <returns>SerialNumer, New Path</returns>
 
-        public Tuple<string, string> CreateFoldersAndUpdateImageFromPath(string sourcePath, string newRootPath)
+        public Tuple<string, string> CreateFoldersAndUpdateImageFromPath(string sourcePath, string newRootPath, bool createSerialFolder = false)
         {
 
             string imageFileName = Path.GetFileName(sourcePath);
@@ -117,8 +118,8 @@ namespace ApplicationsA.Functions
             string year = date.Substring(0, 4);
             string month = date.Substring(4, 2);
             string day = date.Substring(6, 2);
-            string newPath = Path.Combine(newRootPath, year, month, day);
-            string virtualPath = Path.Combine(year, month, day, imageFileName);
+            string newPath = createSerialFolder? Path.Combine(newRootPath, year, month, day,serialNumber):Path.Combine(newRootPath, year, month, day);
+            string virtualPath = createSerialFolder ? Path.Combine(year, month, day, serialNumber, imageFileName):  Path.Combine(year, month, day, imageFileName);
             int counter = 0;
       
            //Connect to Red Folder with credentials and check if folder exists

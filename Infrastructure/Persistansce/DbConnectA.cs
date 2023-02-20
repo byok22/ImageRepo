@@ -13,7 +13,9 @@ namespace Infrastructure.Persistansce
 
         //get connection string from App.config
         //private static string ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["TE_ImageRepo"].ConnectionString;
-        private static string ConnectionString = "data source=AWUEA1GDLSQL41;initial catalog=TE_ImageRepository;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework";
+
+        // data source=AWUEA1GDLSQL41;initial catalog=TE_ImageRepository;Persist Security Info=True;User ID=EngSWUser;Password=EnGswUs3r19!;MultipleActiveResultSets=True;App=EntityFramework
+        private static string ConnectionString = "data source=AWUEA1OTSQL01;initial catalog=TE_ImageRepository;Persist Security Info=True;User ID=TeslaSWUser;Password=T3sl@SWUs3r!;MultipleActiveResultSets=True;App=EntityFramework";
         // <add name="TE_ImageRepo" connectionString="" providerName="System.Data.SqlClient" />
         private SqlConnection conn;
 

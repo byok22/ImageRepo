@@ -254,53 +254,68 @@ namespace FormApp.Views
         /// <returns></returns>
         private async Task ProcessMoveImagesAndInsertRecordToDb(StoreRepository storeRepository)
         {
-            await Task.Run(() =>
+            try
             {
-                FileOperations fileOperations = new FileOperations();
-                List<string> listString = fileOperations.GetFilesFromPath(sourcePath);
-                foreach (var item in listString)
+                await Task.Run(() =>
                 {
-                    if (!statusSS)
+                    FileOperations fileOperations = new FileOperations();
+                    List<string> listString = fileOperations.GetFilesFromPath(sourcePath);
+                    foreach (var item in listString)
                     {
-                        return;
-                    }
-                    string validPath = SerialNumbers.GetValidSerialNumberFromPath(item);
-                    if (!string.IsNullOrEmpty(validPath))
-                    {
-                        FormsGenerator.setLabelTextColorSafe(lblCurrent, validPath);
-                        // lblCurrent.Text = validPath;
-                        var result = fileOperations.CreateFoldersAndUpdateImageFromPath(validPath, destinationPath);
-                        if (result.Item1 != null && result.Item1 != "")
+                        if (!statusSS)
                         {
-                            ImageRepositoryModel imageRepositoryModel = new ImageRepositoryModel();
-                            imageRepositoryModel.SerialNumber = result.Item1;
-                            imageRepositoryModel.Path = result.Item2;
-                            imageRepositoryModel.FKProcess = process_ID;
-                            // Get Creation Date from Image
-                            string dateString = fileOperations.GetDateStringFromFileName(validPath);
-                            if (dateString.Length == 0)
-                            {
-                                //get datetime with hour minuts and secons from dateString
-                                dateString = File.GetCreationTime(validPath).ToString("yyyyMMddHHmmss");
-                            }
-                            imageRepositoryModel.FileDateTime = DateTime.ParseExact(dateString, "yyyyMMddHHmmss", System.Globalization.CultureInfo.InvariantCulture);
-                            //Insert Image to DB
-                            ImageRepositoryModel imageRepositoryAfterInsert = storeRepository.insertImageRecord(imageRepositoryModel);
-                            if (imageRepositoryAfterInsert != null)
-                            {
-                                //Delete Image from Source Folder
-                                fileOperations.DeleteFilesFromPath(validPath);
-                            }
+                            return;
                         }
-                        imagesUpdated = result.Item1 != null && result.Item1 != "" ? imagesUpdated + validPath + "  Target:" + result.Item2 + Environment.NewLine : imagesUpdated;
-                        FormsGenerator.setTextboxTextColorSafe(txtLog, imagesUpdated);
-                        LoggerImage.WriteLog(validPath, "CopyProcess");
-                        FormsGenerator.setLabelTextColorSafe(lblLast, validPath);
-                        FormsGenerator.setLabelTextColorSafe(lblCurrent, "");
-                        continue;
+                        string validPath = SerialNumbers.GetValidSerialNumberFromPath(item);
+                        if (!string.IsNullOrEmpty(validPath))
+                        {
+                            FormsGenerator.setLabelTextColorSafe(lblCurrent, validPath);
+                            // lblCurrent.Text = validPath;
+
+                            var result = processName == "AXI" ? fileOperations.CreateFoldersAndUpdateImageFromPath(validPath, destinationPath,true): fileOperations.CreateFoldersAndUpdateImageFromPath(validPath, destinationPath);
+                            if (result.Item1 != null && result.Item1 != "")
+                            {
+                                ImageRepositoryModel imageRepositoryModel = new ImageRepositoryModel();
+                                imageRepositoryModel.SerialNumber = result.Item1;
+                                imageRepositoryModel.Path = result.Item2;
+                                imageRepositoryModel.FKProcess = process_ID;
+                                // Get Creation Date from Image
+                                string dateString = fileOperations.GetDateStringFromFileName(validPath);
+                                if (dateString.Length == 0)
+                                {
+                                    //get datetime with hour minuts and secons from dateString
+                                    dateString = File.GetCreationTime(validPath).ToString("yyyyMMddHHmmss");
+                                }
+                                imageRepositoryModel.FileDateTime = DateTime.ParseExact(dateString, "yyyyMMddHHmmss", System.Globalization.CultureInfo.InvariantCulture);
+                                //Insert Image to DB
+                                ImageRepositoryModel imageRepositoryAfterInsert = storeRepository.insertImageRecord(imageRepositoryModel);
+                                if (imageRepositoryAfterInsert != null)
+                                {
+                                    //Delete Image from Source Folder
+                                    fileOperations.DeleteFilesFromPath(validPath);
+                                }
+                            }
+                            int numLines = imagesUpdated.Split('\n').Length;
+                            if (numLines > 20)
+                            {
+                                imagesUpdated = "";
+                            }
+                            imagesUpdated = result.Item1 != null && result.Item1 != "" ? imagesUpdated + validPath + "  Target:" + result.Item2 + Environment.NewLine : imagesUpdated;
+                           
+                            FormsGenerator.setTextboxTextColorSafe(txtLog, imagesUpdated);
+                            LoggerImage.WriteLog(validPath, "CopyProcess");
+                            FormsGenerator.setLabelTextColorSafe(lblLast, validPath);
+                            FormsGenerator.setLabelTextColorSafe(lblCurrent, "");
+                            continue;
+                        }
                     }
-                }
-            });
+                });
+            }
+            catch(Exception ex)
+            {
+                LoggerImage.WriteLog(ex.Message, "ProcessMoveImagesAndInsertRecordToDb");
+            }
+           
         }
 
         /// <summary>
