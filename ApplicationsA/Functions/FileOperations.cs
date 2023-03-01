@@ -88,10 +88,19 @@ namespace ApplicationsA.Functions
         /// <param name="rootPath"></param>
         /// <returns>List Of Files</returns>
         
-        public List<string> GetFilesFromPath(string rootPath)
+        public List<string> GetFilesFromPath(string rootPath, string ext)
         {
-            var ext = new List<string> { "jpg", "tif" };
-            List<string> files = Directory.GetFiles(rootPath,"*.*",SearchOption.AllDirectories).Where(s => ext.Contains(Path.GetExtension(s).TrimStart('.').ToLowerInvariant())).ToList();
+            var extList = new List<string>();
+            if (ext == "")
+            {
+                extList.Add("jpg");
+                extList.Add("tif");
+            }
+            else
+            {
+                extList.Add(ext);
+            }                                        
+            List<string> files = Directory.GetFiles(rootPath,"*.*",SearchOption.AllDirectories).Where(s => extList.Contains(Path.GetExtension(s).TrimStart('.').ToLowerInvariant())).ToList();
             return files;
         }
         /// <summary>

@@ -13,6 +13,7 @@ namespace Domain.Entities
         public string SerialNumber { get; set; }   
         public int FKProcess { get; set; } 
         public string Path { get; set; }   
+        public string FileName { get; set; }
         public DateTime FileDateTime { get; set; }
         public DateTime UpdatedAt { get; set; }
 

@@ -259,7 +259,8 @@ namespace FormApp.Views
                 await Task.Run(() =>
                 {
                     FileOperations fileOperations = new FileOperations();
-                    List<string> listString = fileOperations.GetFilesFromPath(sourcePath);
+                    string ext = processName == "AXI" ? "tif" : processName == "AOI" ? "jpg" : "";
+                    List<string> listString = fileOperations.GetFilesFromPath(sourcePath,ext);
                     foreach (var item in listString)
                     {
                         if (!statusSS)
@@ -277,7 +278,8 @@ namespace FormApp.Views
                             {
                                 ImageRepositoryModel imageRepositoryModel = new ImageRepositoryModel();
                                 imageRepositoryModel.SerialNumber = result.Item1;
-                                imageRepositoryModel.Path = result.Item2;
+                                imageRepositoryModel.Path = Path.GetDirectoryName(result.Item2);
+                                imageRepositoryModel.FileName = Path.GetFileName(result.Item2);
                                 imageRepositoryModel.FKProcess = process_ID;
                                 // Get Creation Date from Image
                                 string dateString = fileOperations.GetDateStringFromFileName(validPath);
