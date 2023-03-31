@@ -88,7 +88,7 @@ namespace ApplicationsA.Functions
         /// <param name="rootPath"></param>
         /// <returns>List Of Files</returns>
         
-        public List<string> GetFilesFromPath(string rootPath, string ext)
+        public List<string> GetFilesFromPath(string rootPath, string ext="")
         {
             var extList = new List<string>();
             if (ext == "")
