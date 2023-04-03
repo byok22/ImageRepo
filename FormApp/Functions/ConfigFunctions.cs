@@ -134,6 +134,30 @@ namespace FormApp.Functions
             return processName;
         }
 
+        public static void SetTimerCreationFileInConfig(int time)
+        {
+            //save in app.config file code
+            var config = ConfigurationManager.OpenExeConfiguration(System.Configuration.ConfigurationUserLevel.None);
+            //create new key if not exist
+            if (config.AppSettings.Settings["TimerFile"] == null)
+            {
+                config.AppSettings.Settings.Add("TimerFile", time.ToString());
+            }
+            else
+            {
+                config.AppSettings.Settings["TimerFile"].Value = time.ToString();
+            }
+            config.Save(System.Configuration.ConfigurationSaveMode.Modified);
+            System.Configuration.ConfigurationManager.RefreshSection("appSettings");
+        }
+        public static int GetTimerFileFromConfig()
+        {
+            string timerstr = ConfigurationManager.AppSettings["TimerFile"];
+            int timer;
+            int.TryParse(timerstr, out timer);
+            return timer;
+
+        }
 
         public static void SetTimerInConfig(int time)
         {

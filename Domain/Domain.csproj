@@ -45,6 +45,7 @@
     <Compile Include="Entities\ImageRepositoryModel.cs" />
     <Compile Include="Entities\UpGetProcessModel.cs" />
     <Compile Include="Entities\UserActivity.cs" />
+    <Compile Include="Metrics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

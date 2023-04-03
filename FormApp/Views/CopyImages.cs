@@ -120,7 +120,7 @@ namespace FormApp
                 {
                     
                     //verify serial numbers
-                    string serialNumber = SerialNumbers.GetValidSerialNumberFromPath(chkListFiles.Items[i].ToString());
+                    string serialNumber = SerialNumbers.GetValidSerialNumberFromPath(chkListFiles.Items[i].ToString(), "");
                     if (serialNumber == "")
                     {
                         chkListFiles.SetItemChecked(i, false);

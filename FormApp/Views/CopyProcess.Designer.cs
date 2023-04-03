@@ -45,6 +45,10 @@
             this.btnStarStop = new System.Windows.Forms.Button();
             this.lblVersion = new System.Windows.Forms.Label();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.label4 = new System.Windows.Forms.Label();
+            this.lblRam = new System.Windows.Forms.Label();
+            this.lblCpu = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.pnlMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             this.gbStatus.SuspendLayout();
@@ -215,6 +219,42 @@
             this.notifyIcon.Text = "notifyIcon1";
             this.notifyIcon.Visible = true;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(15, 431);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(29, 13);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "Ram";
+            // 
+            // lblRam
+            // 
+            this.lblRam.AutoSize = true;
+            this.lblRam.Location = new System.Drawing.Point(43, 431);
+            this.lblRam.Name = "lblRam";
+            this.lblRam.Size = new System.Drawing.Size(31, 13);
+            this.lblRam.TabIndex = 7;
+            this.lblRam.Text = "0000";
+            // 
+            // lblCpu
+            // 
+            this.lblCpu.AutoSize = true;
+            this.lblCpu.Location = new System.Drawing.Point(134, 431);
+            this.lblCpu.Name = "lblCpu";
+            this.lblCpu.Size = new System.Drawing.Size(21, 13);
+            this.lblCpu.TabIndex = 9;
+            this.lblCpu.Text = "0%";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(105, 431);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(26, 13);
+            this.label7.TabIndex = 8;
+            this.label7.Text = "Cpu";
+            // 
             // CopyProcess
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -222,6 +262,10 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(190)))), ((int)(((byte)(192)))));
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.ControlBox = false;
+            this.Controls.Add(this.lblCpu);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.lblRam);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.lblProcess);
             this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.btnStarStop);
@@ -260,5 +304,9 @@
         private System.Windows.Forms.Button btnMinimize;
         private System.Windows.Forms.Label lblProcess;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblRam;
+        private System.Windows.Forms.Label lblCpu;
+        private System.Windows.Forms.Label label7;
     }
 }

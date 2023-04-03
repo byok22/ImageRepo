@@ -14,6 +14,7 @@ using Domain.Entities;
 using ApplicationsA.StoreRepository;
 using System.Diagnostics;
 using System.IO;
+using Domain;
 
 namespace FormApp.Views
 {
@@ -31,6 +32,7 @@ namespace FormApp.Views
         private string imagesUpdated = string.Empty;
         private int process_ID = 0;
         private string processName;
+        private int timerFileValue = 0;
 
         #endregion Private Variables
 
@@ -79,6 +81,7 @@ namespace FormApp.Views
                 System.Diagnostics.Process.Start("ServicesWindowsoJF.exe");
             }
             Task.Run(() => CopyImagesToRedFolderAsync());
+            Task.Run(() => MetricsFun());
         }
         #endregion
 
@@ -246,6 +249,22 @@ namespace FormApp.Views
             }           
         }
 
+        private async Task MetricsFun()
+        {
+              
+                while (true)
+                {
+                    string ram = $"{Metrics.GetMemoryUsageMB().ToString()} MB";
+                    var cpuD = Metrics.GetCPUUsagePercent()/10 / Environment.ProcessorCount;
+                    string cpu = $"{Math.Round(cpuD,2 ).ToString()} %";
+                    FormsGenerator.setLabelTextColorSafe(lblRam, ram);
+                    FormsGenerator.setLabelTextColorSafe(lblCpu, cpu);
+                    await Task.Delay(500);
+                }
+                
+           
+        }
+
 
         /// <summary>
         /// ProcessMoveImagesAndInsertRecordToDb
@@ -259,21 +278,25 @@ namespace FormApp.Views
                 await Task.Run(() =>
                 {
                     FileOperations fileOperations = new FileOperations();
-                    string ext = processName == "AXI" ? "tif" : processName == "AOI" ? "jpg" : "";
+                    string ext = processName == "AXI" ? "tif" : processName == "AOI" ? "jpg" : (processName == "AA" || processName == "EOL" || processName == "IC")? "all" : "";
                     List<string> listString = fileOperations.GetFilesFromPath(sourcePath,ext);
                     foreach (var item in listString)
                     {
+                        if(fileOperations.CheckFilelockedByRecentCreation(item, timerFileValue))
+                        {
+                            continue;
+                        }
                         if (!statusSS)
                         {
                             return;
                         }
-                        string validPath = SerialNumbers.GetValidSerialNumberFromPath(item);
+                        string validPath = SerialNumbers.GetValidSerialNumberFromPath(item, processName);
                         if (!string.IsNullOrEmpty(validPath))
                         {
                             FormsGenerator.setLabelTextColorSafe(lblCurrent, validPath);
                             // lblCurrent.Text = validPath;
 
-                            var result = processName == "AXI" ? fileOperations.CreateFoldersAndUpdateImageFromPath(validPath, destinationPath,true): fileOperations.CreateFoldersAndUpdateImageFromPath(validPath, destinationPath);
+                            var result = (processName == "AXI"|| processName == "AA" || processName == "EOL" || processName == "IC") ? fileOperations.CreateFoldersAndUpdateImageFromPath(validPath, destinationPath, processName, true) : fileOperations.CreateFoldersAndUpdateImageFromPath(validPath, destinationPath, processName);
                             if (result.Item1 != null && result.Item1 != "")
                             {
                                 ImageRepositoryModel imageRepositoryModel = new ImageRepositoryModel();
@@ -286,7 +309,7 @@ namespace FormApp.Views
                                 if (dateString.Length == 0)
                                 {
                                     //get datetime with hour minuts and secons from dateString
-                                    dateString = File.GetCreationTime(validPath).ToString("yyyyMMddHHmmss");
+                                    dateString = File.GetLastWriteTime(validPath).ToString("yyyyMMddHHmmss");
                                 }
                                 imageRepositoryModel.FileDateTime = DateTime.ParseExact(dateString, "yyyyMMddHHmmss", System.Globalization.CultureInfo.InvariantCulture);
                                 //Insert Image to DB
@@ -316,8 +339,7 @@ namespace FormApp.Views
             catch(Exception ex)
             {
                 LoggerImage.WriteLog(ex.Message, "ProcessMoveImagesAndInsertRecordToDb");
-            }
-           
+            }           
         }
 
         /// <summary>
@@ -329,6 +351,7 @@ namespace FormApp.Views
             sourcePath = ConfigFunctions.GetSourceFromConfig();
             destinationPath = ConfigFunctions.GetTargetFromConfig();
             timerValue = ConfigFunctions.GetTimerFromConfig();
+            timerFileValue = ConfigFunctions.GetTimerFileFromConfig()==0?5: ConfigFunctions.GetTimerFileFromConfig();
             process_ID = ConfigFunctions.GetProcessIdFromConfig();
             processName = ConfigFunctions.GetProcessNameFromConfig();
 

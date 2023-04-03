@@ -47,6 +47,7 @@ namespace FormApp.Views
             getServerPathFromConfig();
             getSourceFromConfig();
             GetNuTimerFromConfig();
+            GetNuTimerFileFromConfig();
         }
         private void CopyProcess_MouseUp(object sender, MouseEventArgs e)
         {
@@ -91,6 +92,18 @@ namespace FormApp.Views
             if (timerID >= 60)
             {
                 nuTimer.Value = timerID;
+            }
+        }
+
+        /// <summary>
+        /// Get timer from config file
+        /// </summary>
+        private void GetNuTimerFileFromConfig()
+        {
+            int timerID = ConfigFunctions.GetTimerFileFromConfig();
+            if (timerID >= 5)
+            {
+                nuTimerFile.Value = timerID;
             }
         }
 
@@ -151,6 +164,10 @@ namespace FormApp.Views
             //save timer in app.config file code
             int timer = Convert.ToInt32(nuTimer.Value);
             ConfigFunctions.SetTimerInConfig(timer);
+
+            //Save Timer File in app.config File code
+            int timerFile = Convert.ToInt32(nuTimerFile.Value);
+            ConfigFunctions.SetTimerCreationFileInConfig(timerFile);
 
             //save source in app.config file 
             string source = txtSource.Text;

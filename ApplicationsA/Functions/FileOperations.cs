@@ -15,6 +15,7 @@ namespace ApplicationsA.Functions
 {
     public class FileOperations
     {
+      //  public string processName = "";
 
         public int DeleteFilesFromPath(string path)
         {
@@ -29,6 +30,24 @@ namespace ApplicationsA.Functions
             return count;                        
             
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="FilePath"></param>
+        /// <param name="Minuts"></param>
+        /// <returns></returns>
+        public bool CheckFilelockedByRecentCreation(string FilePath, int Minuts)
+        {
+            DateTime dateNow = DateTime.Now.AddMinutes(-Minuts);
+            var fileDate = File.GetLastWriteTime(FilePath);
+            if(fileDate<=dateNow)
+            {
+                return false;
+            }
+            return true;
+        }
+
         /// <summary>
         /// GetDateStringFromFileName
         /// </summary>
@@ -50,13 +69,13 @@ namespace ApplicationsA.Functions
         /// <param name="rootPath"></param>
         /// <param name="destinationPath"></param>
         /// <returns></returns>
-        public List<ImageRepositoryModel> UpLoadAllImagesFromPath(string rootPath, string destinationPath)
+        public List<ImageRepositoryModel> UpLoadAllImagesFromPath(string rootPath, string destinationPath, string processName)
         {
             List<ImageRepositoryModel> imageRepositories = new List<ImageRepositoryModel>();
             List<string> files = Directory.GetFiles(rootPath, "*.*", SearchOption.AllDirectories).ToList();
             Parallel.ForEach(files, file =>
             {
-                UploadFile(destinationPath, file, imageRepositories);
+                UploadFile(destinationPath, file, imageRepositories,processName);
             });
             return imageRepositories;
         }
@@ -68,13 +87,13 @@ namespace ApplicationsA.Functions
         /// <param name="imageRepositories"></param>
         /// <returns></returns>
 
-        private void UploadFile(string destinationPath, string file, List<ImageRepositoryModel> imageRepositories)
+        private void UploadFile(string destinationPath, string file, List<ImageRepositoryModel> imageRepositories, string processName)
         {
-            string serialNumber = SerialNumbers.GetValidSerialNumberFromPath(file);
+            string serialNumber = SerialNumbers.GetValidSerialNumberFromPath(file, processName);
             string dateString = GetDateStringFromFileName(file);
             if (serialNumber.Length > 0 && dateString.Length > 0)
             {
-                var serialAndPath = CreateFoldersAndUpdateImageFromPath(file, destinationPath);
+                var serialAndPath = CreateFoldersAndUpdateImageFromPath(file, destinationPath, processName);
                 imageRepositories.Add(new ImageRepositoryModel
                 {
                     SerialNumber = serialAndPath.Item1,
@@ -91,6 +110,12 @@ namespace ApplicationsA.Functions
         public List<string> GetFilesFromPath(string rootPath, string ext="")
         {
             var extList = new List<string>();
+
+
+            if (ext == "all")
+            {
+                return Directory.GetFiles(rootPath, "*.*", SearchOption.AllDirectories).ToList(); ;
+            }
             if (ext == "")
             {
                 extList.Add("jpg");
@@ -99,8 +124,9 @@ namespace ApplicationsA.Functions
             else
             {
                 extList.Add(ext);
-            }                                        
-            List<string> files = Directory.GetFiles(rootPath,"*.*",SearchOption.AllDirectories).Where(s => extList.Contains(Path.GetExtension(s).TrimStart('.').ToLowerInvariant())).ToList();
+            }
+           
+            List<string> files = Directory.GetFiles(rootPath, "*.*", SearchOption.AllDirectories).Where(s => extList.Contains(Path.GetExtension(s).TrimStart('.').ToLowerInvariant())).ToList();
             return files;
         }
         /// <summary>
@@ -110,18 +136,18 @@ namespace ApplicationsA.Functions
         /// <param name="newRootPath"></param>
         /// <returns>SerialNumer, New Path</returns>
 
-        public Tuple<string, string> CreateFoldersAndUpdateImageFromPath(string sourcePath, string newRootPath, bool createSerialFolder = false)
+        public Tuple<string, string> CreateFoldersAndUpdateImageFromPath(string sourcePath, string newRootPath, string processName, bool createSerialFolder = false )
         {
 
             string imageFileName = Path.GetFileName(sourcePath);
-            string serialNumber = SerialNumbers.GetValidSeriaFromPath(imageFileName);            
+            string serialNumber = SerialNumbers.GetValidSeriaFromPath(imageFileName, processName);            
             string date = GetDateStringFromFileName(imageFileName);
 
             //If image name does not contain date, then get date from file creation date
             if (date.Length == 0)
             {
                  //get datetime with hour minuts and secons from dateString
-                date = File.GetCreationTime(sourcePath).ToString("yyyyMMddHHmmss");
+                date = File.GetLastWriteTime(sourcePath).ToString("yyyyMMddHHmmss");
                 imageFileName = $"{date}-{imageFileName}";
             }
             string year = date.Substring(0, 4);

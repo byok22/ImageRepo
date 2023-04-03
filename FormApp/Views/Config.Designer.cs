@@ -41,8 +41,11 @@
             this.btnClose = new System.Windows.Forms.Button();
             this.picLogo = new System.Windows.Forms.PictureBox();
             this.lblServerPath = new System.Windows.Forms.Label();
+            this.nuTimerFile = new System.Windows.Forms.NumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nuTimer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nuTimerFile)).BeginInit();
             this.SuspendLayout();
             // 
             // txtSource
@@ -116,9 +119,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(6, 138);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(33, 13);
+            this.label3.Size = new System.Drawing.Size(81, 13);
             this.label3.TabIndex = 9;
-            this.label3.Text = "Timer";
+            this.label3.Text = "Timer(Seconds)";
             // 
             // btnSave
             // 
@@ -176,12 +179,45 @@
             this.lblServerPath.TabIndex = 15;
             this.lblServerPath.Text = "//";
             // 
+            // nuTimerFile
+            // 
+            this.nuTimerFile.Location = new System.Drawing.Point(9, 222);
+            this.nuTimerFile.Maximum = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
+            this.nuTimerFile.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.nuTimerFile.Name = "nuTimerFile";
+            this.nuTimerFile.Size = new System.Drawing.Size(60, 20);
+            this.nuTimerFile.TabIndex = 16;
+            this.nuTimerFile.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 197);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(85, 13);
+            this.label5.TabIndex = 17;
+            this.label5.Text = "Move After (Min)";
+            // 
             // Config
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(190)))), ((int)(((byte)(192)))));
             this.ClientSize = new System.Drawing.Size(521, 308);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.nuTimerFile);
             this.Controls.Add(this.lblServerPath);
             this.Controls.Add(this.picLogo);
             this.Controls.Add(this.btnClose);
@@ -200,6 +236,7 @@
             this.Load += new System.EventHandler(this.Config_Load);
             ((System.ComponentModel.ISupportInitialize)(this.nuTimer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nuTimerFile)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -219,5 +256,7 @@
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.PictureBox picLogo;
         private System.Windows.Forms.Label lblServerPath;
+        private System.Windows.Forms.NumericUpDown nuTimerFile;
+        private System.Windows.Forms.Label label5;
     }
 }
