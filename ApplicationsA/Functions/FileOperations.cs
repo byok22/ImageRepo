@@ -148,7 +148,7 @@ namespace ApplicationsA.Functions
             {
                  //get datetime with hour minuts and secons from dateString
                 date = File.GetLastWriteTime(sourcePath).ToString("yyyyMMddHHmmss");
-                imageFileName = $"{date}-{imageFileName}";
+                //imageFileName = $"{date}-{imageFileName}";
             }
             string year = date.Substring(0, 4);
             string month = date.Substring(4, 2);
