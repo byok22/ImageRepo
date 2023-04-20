@@ -314,10 +314,12 @@ namespace FormApp.Views
                                 imageRepositoryModel.FileDateTime = DateTime.ParseExact(dateString, "yyyyMMddHHmmss", System.Globalization.CultureInfo.InvariantCulture);
                                 //Insert Image to DB
                                 ImageRepositoryModel imageRepositoryAfterInsert = storeRepository.insertImageRecord(imageRepositoryModel);
-                                if (imageRepositoryAfterInsert != null)
+                                if (imageRepositoryAfterInsert != null &&
+                               ( validPath.ToUpper().Contains("JPG") || validPath.ToUpper().Contains("TIF") || validPath.ToUpper().Contains("PNG") || validPath.ToUpper().Contains("BMP") || validPath.ToUpper().Contains("PSD")))
                                 {
                                     //Delete Image from Source Folder
-                                    fileOperations.DeleteFilesFromPath(validPath);
+                                    
+                                        fileOperations.DeleteFilesFromPath(validPath);                                   
                                 }
                             }
                             int numLines = imagesUpdated.Split('\n').Length;
