@@ -60,11 +60,14 @@ namespace FormApp.Views
             Ldap ldap = new Ldap();           
             username = txtUser.Text;
             password = txtPassword.Text;
-            if (username == "ADMIN" && password == "J@b1l2023" || ldap.NTLogin("JABIL", username, password))
+            string login = ldap.NTLoginMSJ("JABIL", username, password);
+            if (username == "ADMIN" && password == "J@b1l2023" ||  login == "Acceso Correcto")
             {              
                 this.DialogResult = DialogResult.OK;
                 return;
             }
+            MessageBox.Show(login);
+            
             this.DialogResult = DialogResult.Cancel;           
         }
         private void btnClose_Click(object sender, EventArgs e)

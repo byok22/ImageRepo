@@ -108,7 +108,109 @@ namespace ApplicationsA.LDAP_Validation
             return ReturnedVariable;
         }
 
-         /// <summary>
+        public string NTLoginMSJ(string domainName, string userAccount, string password)
+        {
+            string error = "";
+            #region [Object Variables]
+            Config config = new Config();
+
+
+            bool ReturnedVariable = false;
+            string path = "LDAP://CORP." + domainName + ".ORG/DC=CORP,DC=" + domainName + ",DC=ORG";
+            #endregion
+
+            try
+            {
+                using (DirectoryEntry x = new DirectoryEntry(path, domainName + "\\" + userAccount, password))
+                {
+                    object y = x.NativeObject;
+                }
+                ReturnedVariable = true;
+            }
+            catch (Exception err)
+            {
+                System.Diagnostics.Debug.WriteLine("NTLogin: " + err.Message);
+                ReturnedVariable = false;
+                error = err.Message;
+                
+            }
+
+            if (!ReturnedVariable)
+            {
+                try
+                {
+
+                    string URL = @"http://10.48.25.18/Loginws/LoginService.asmx";
+
+                    Dictionary<string, string> dcParameters = new Dictionary<string, string>();
+                    dcParameters.Add("user", userAccount);
+                    dcParameters.Add("password", password);
+
+                    string MethodName = "fnLogin";
+
+                    string Request = HttpPostRequest(URL, MethodName, dcParameters);
+
+                    if (Request.Contains("<fnLoginResult>1</fnLoginResult>"))
+                    {
+                        ReturnedVariable = true;
+                        error = "";
+                    }
+                    else
+                    {
+                        ReturnedVariable = false;
+                        error = error+ Request;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    System.Diagnostics.Debug.WriteLine("NTLogin: " + ex.Message);
+                    ReturnedVariable = false;
+                    error = error+"  2  "+ ex.Message;
+                }
+            }
+
+            if (!ReturnedVariable)
+            {
+                try
+                {
+                    string URL = config.WebService_Autentication2;
+
+                    Dictionary<string, string> dcParameters = new Dictionary<string, string>();
+                    dcParameters.Add("user", userAccount);
+                    dcParameters.Add("password", password);
+
+                    string MethodName = "fnLogin";
+
+                    string Request = HttpPostRequest(URL, MethodName, dcParameters);
+
+                    if (Request.Contains("<fnLoginResult>1</fnLoginResult>"))
+                    {
+                        ReturnedVariable = true;
+                    }
+                    else
+                    {
+                        ReturnedVariable = false;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    System.Diagnostics.Debug.WriteLine("NTLogin: " + ex.Message);
+                    ReturnedVariable = false;
+                    error = error +"  2 " + ex.Message;
+                    
+                }
+            }
+            if (error == "")
+            {
+                return "Acceso Correcto";
+            }
+            return error;
+           
+        }
+
+        /// <summary>
         /// HttpPostRequest
         /// </summary>
         /// <param name="url"></param>

@@ -20,7 +20,10 @@ namespace ApplicationsA.Functions
             }
             if (process.ToUpper() == "AA")
             {
-                return Regex.Match(FileName, @"FE2\d{5}A[HV]\d[0-9]+").Value;
+                var reg1 = Regex.Match(FileName, @"FE2\d{5}A[HV]\d[0-9]+").Value;
+                var reg2 = Regex.Match(FileName, @"[A-Z]\d+-[0-9A-Z]+-[A-Z]_SFE\d+[CV]\d+").Value;
+                return reg1 != null && reg1 != "" ? reg1 : reg2??"";
+                    
             }
             if (process.ToUpper() == "EOL")
             {
@@ -40,7 +43,12 @@ namespace ApplicationsA.Functions
             }else
             if (process.ToUpper() == "AA")
             {
-                serialNumber = Regex.Match(FileName, @"FE2\d{5}A[HV]\d[0-9]+").Value != "" ? completePath : "";
+                serialNumber = (
+                    Regex.Match(FileName, @"FE2\d{5}A[HV]\d[0-9]+").Value != "" ||  
+                    Regex.Match(FileName, @"[A-Z]\d+-[0-9A-Z]+-[A-Z]_SFE\d+[CV]\d+").Value != ""
+
+                    )
+                     ? completePath : "";
             }
             else
             if (process.ToUpper() == "EOL" )
