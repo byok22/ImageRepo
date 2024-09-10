@@ -21,6 +21,10 @@ namespace ApplicationsA.StoreRepository
         }
         public ImageRepositoryModel insertImageRecord(ImageRepositoryModel image)
         {
+            if (image.SerialNumber!=null && image.SerialNumber!="" && image.SerialNumber.Contains("_"))
+            {
+                image.SerialNumber = image.SerialNumber.Replace('_', ':');
+            }
             return storeProceduresRepo.InsertAndGetImageRepositoryModel(image);
         }
         public UserActivity insertUserActivity(UserActivity userActivity)

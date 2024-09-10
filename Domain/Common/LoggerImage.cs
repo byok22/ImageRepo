@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace Domain.Common
 {
     public static class LoggerImage
     {
         private static string _pathLog = string.Empty;
-      
+        private const long MaxLogSize = 15 * 1024 * 1024; // 15 MB en bytes
+
         public static string PathLog
         {
             get
@@ -23,34 +21,56 @@ namespace Domain.Common
             }
         }
 
-       //Write log in file and add date and time and type of log
+        // Write log in file and add date and time and type of log
         public static void WriteLog(string message, string type)
         {
             try
             {
                 string path = Environment.CurrentDirectory.ToString();
-                if (!System.IO.Directory.Exists(path))
+                if (!Directory.Exists(path))
                 {
-                    System.IO.Directory.CreateDirectory(path);
+                    Directory.CreateDirectory(path);
                 }
+
+                // Nombre del archivo log basado en la fecha actual (uno por día)
                 string fileName = string.Format("{0}\\{1}.txt", path, DateTime.Now.ToString("yyyyMMdd"));
-                if (!System.IO.File.Exists(fileName))
+
+                // Verificar si el archivo de log excede los 15 MB
+                if (File.Exists(fileName))
                 {
-                    System.IO.File.Create(fileName).Close();
+                    FileInfo logFileInfo = new FileInfo(fileName);
+                    if (logFileInfo.Length > MaxLogSize)
+                    {
+                        try
+                        {
+                            // Si el archivo supera los 15 MB, intentamos eliminarlo
+                            File.Delete(fileName);
+                        }
+                        catch (Exception ex)
+                        {
+                            // Si no podemos eliminar el archivo, capturamos el error y no escribimos más en el log
+                            Console.WriteLine($"Error al eliminar el archivo de log: {ex.Message}");
+                            return; // Salimos sin escribir en el log si no se pudo eliminar
+                        }
+                    }
                 }
-                using (System.IO.StreamWriter writer = new System.IO.StreamWriter(fileName, true))
+                else
+                {
+                    // Si el archivo no existe, lo creamos
+                    File.Create(fileName).Close();
+                }
+
+                // Escribir el log en el archivo
+                using (StreamWriter writer = new StreamWriter(fileName, true))
                 {
                     writer.WriteLine(string.Format("{0} {1} {2}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), type, message));
-                    writer.Close();
                 }
             }
             catch (Exception ex)
             {
-                throw ex;
+                // Manejo de excepciones generales al escribir el log
+                Console.WriteLine($"Error al escribir el log: {ex.Message}");
             }
         }
-      
-
-
     }
 }
